@@ -147,23 +147,8 @@ export const DailyPlanView: React.FC<DailyPlanViewProps> = ({
 
       {/* Hero Coach Briefing Card */}
       <section className="relative overflow-hidden bg-slate-900 text-white rounded-3xl border border-slate-800 shadow-xl">
-        <div className="absolute inset-0 z-0 opacity-20 pointer-events-none mix-blend-luminosity">
-          <img
-            src="/src/assets/images/coach_hero_banner_1792986697973.jpg"
-            alt="Calisthenics Gym"
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
-          />
-        </div>
-
         <div className="relative z-10 p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="flex items-start gap-4">
-            <img
-              src="/src/assets/images/coach_avatar_1792986697757.jpg"
-              alt="Coach Marcus"
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border-2 border-amber-400/60 shadow-lg shrink-0"
-              referrerPolicy="no-referrer"
-            />
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold text-amber-400 uppercase tracking-widest font-mono">
