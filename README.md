@@ -50,21 +50,12 @@ npm install        # or: bun install
 
 ### Configuration
 
-1. Copy the environment template:
+No API keys or environment variables are required. You only need a Firebase project:
 
-   ```bash
-   cp .env.example .env.local
-   ```
-
-   | Variable         | Description                                            |
-   | ---------------- | ------------------------------------------------------ |
-   | `GEMINI_API_KEY` | Gemini API key (injected automatically in AI Studio)   |
-   | `APP_URL`        | URL where the app is hosted                            |
-
-2. Put your Firebase web app config in `firebase-applet-config.json`, including the
+1. Put your Firebase web app config in `firebase-applet-config.json`, including the
    `firestoreDatabaseId` of your Firestore database.
 
-3. Deploy the security rules in `firestore.rules` to your Firestore database, for
+2. Deploy the security rules in `firestore.rules` to your Firestore database, for
    example with the Firebase CLI:
 
    ```bash
@@ -86,13 +77,14 @@ npm run dev        # dev server on http://localhost:3000
 | `npm run preview` | Preview the production build               |
 | `npm run lint`    | Type-check the project (`tsc --noEmit`)    |
 | `npm run clean`   | Remove build output                        |
+| `npm test`        | Run the unit tests                         |
 
 ### Tests
 
-Unit tests use the built-in `node:test` runner. Run them with `tsx`:
+Unit tests use the built-in `node:test` runner through `tsx`:
 
 ```bash
-npx tsx --test src/utils/*.test.ts
+npm test
 ```
 
 ## Project structure
