@@ -1,0 +1,6 @@
+{
+  "name": "Calisthenics Coach 30",
+  "description": "Daily 30-minute structured calisthenics coaching for Monday to Friday with real-time movement animations, form cues, and interval coaching.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

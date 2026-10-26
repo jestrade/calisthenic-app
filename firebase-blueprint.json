@@ -1,0 +1,127 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Athlete profile for Calisthenics Coach 30",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address",
+          "format": "email",
+          "maxLength": 150
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name",
+          "maxLength": 80
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "Profile picture URL",
+          "maxLength": 500
+        },
+        "fitnessLevel": {
+          "type": "string",
+          "description": "Current calisthenics skill level",
+          "enum": ["beginner", "intermediate", "advanced"]
+        },
+        "primaryGoal": {
+          "type": "string",
+          "description": "Primary training goal",
+          "enum": ["strength", "endurance", "skills", "weight_loss", "mobility"]
+        },
+        "preferredLanguage": {
+          "type": "string",
+          "description": "Interface language",
+          "enum": ["en", "es"]
+        },
+        "bodyWeightKg": {
+          "type": "number",
+          "description": "Body weight in kilograms"
+        },
+        "heightCm": {
+          "type": "number",
+          "description": "Height in centimeters"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of profile creation"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of last update"
+        }
+      },
+      "required": ["userId", "email", "displayName", "fitnessLevel", "primaryGoal", "preferredLanguage"]
+    },
+    "WorkoutRecord": {
+      "title": "WorkoutRecord",
+      "description": "Completed 30-minute coached calisthenics workout record",
+      "type": "object",
+      "properties": {
+        "recordId": {
+          "type": "string",
+          "description": "Unique workout record identifier",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 128
+        },
+        "userId": {
+          "type": "string",
+          "description": "User UID who completed the session",
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "maxLength": 128
+        },
+        "dayOfWeek": {
+          "type": "string",
+          "description": "Day of the week routine",
+          "enum": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+        },
+        "workoutTitle": {
+          "type": "string",
+          "description": "Routine title",
+          "maxLength": 120
+        },
+        "dateStr": {
+          "type": "string",
+          "description": "Date completed (YYYY-MM-DD)",
+          "maxLength": 20
+        },
+        "completedAt": {
+          "type": "string",
+          "description": "ISO timestamp of completion"
+        },
+        "durationSeconds": {
+          "type": "number",
+          "description": "Workout duration in seconds"
+        },
+        "caloriesBurned": {
+          "type": "number",
+          "description": "Estimated calories burned"
+        },
+        "difficulty": {
+          "type": "string",
+          "description": "Difficulty level played",
+          "enum": ["beginner", "intermediate", "advanced"]
+        }
+      },
+      "required": ["recordId", "userId", "dayOfWeek", "workoutTitle", "dateStr", "durationSeconds", "caloriesBurned", "difficulty"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Athlete profile for user"
+    },
+    "/users/{userId}/records/{recordId}": {
+      "schema": "WorkoutRecord",
+      "description": "Workout log records for user"
+    }
+  }
+}

@@ -1,0 +1,69 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidUserProfile(data, userId) {
+      return data.userId == userId &&
+        data.userId is string && data.userId.size() <= 128 &&
+        data.email is string && data.email.size() <= 150 &&
+        data.displayName is string && data.displayName.size() <= 80 &&
+        data.fitnessLevel in ['beginner', 'intermediate', 'advanced'] &&
+        data.primaryGoal in ['strength', 'endurance', 'skills', 'weight_loss', 'mobility'] &&
+        data.preferredLanguage in ['en', 'es'];
+    }
+
+    function isValidWorkoutRecord(data, userId) {
+      return data.userId == userId &&
+        data.userId is string && data.userId.size() <= 128 &&
+        data.recordId is string && data.recordId.size() <= 128 &&
+        data.dayOfWeek in ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] &&
+        data.workoutTitle is string && data.workoutTitle.size() <= 120 &&
+        data.dateStr is string && data.dateStr.size() <= 20 &&
+        data.durationSeconds is number && data.durationSeconds >= 0 && data.durationSeconds <= 7200 &&
+        data.caloriesBurned is number && data.caloriesBurned >= 0 &&
+        data.difficulty in ['beginner', 'intermediate', 'advanced'];
+    }
+
+    // User Profile
+    match /users/{userId} {
+      allow get: if isOwner(userId) && isValidId(userId);
+      allow create: if isOwner(userId) && isValidId(userId) && isValidUserProfile(incoming(), userId);
+      allow update: if isOwner(userId) && isValidId(userId) && isValidUserProfile(incoming(), userId) &&
+        incoming().userId == existing().userId;
+      allow delete: if isOwner(userId) && isValidId(userId);
+
+      // User Workout Records Subcollection
+      match /records/{recordId} {
+        allow get, list: if isOwner(userId) && isValidId(userId);
+        allow create: if isOwner(userId) && isValidId(userId) && isValidId(recordId) && isValidWorkoutRecord(incoming(), userId);
+        allow update: if isOwner(userId) && isValidId(userId) && isValidId(recordId) && isValidWorkoutRecord(incoming(), userId) &&
+          incoming().userId == existing().userId && incoming().recordId == existing().recordId;
+        allow delete: if isOwner(userId) && isValidId(userId) && isValidId(recordId);
+      }
+    }
+  }
+}
