@@ -311,7 +311,7 @@ export const DailyPlanView: React.FC<DailyPlanViewProps> = ({
                   </h4>
 
                   {/* Target Muscles */}
-                  <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-slate-600 mb-3">
+                  <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-slate-600 mb-2">
                     <span>{locEx.primaryMuscles.join(', ')}</span>
                     {locEx.secondaryMuscles.length > 0 && (
                       <>
@@ -321,7 +321,7 @@ export const DailyPlanView: React.FC<DailyPlanViewProps> = ({
                     )}
                   </div>
 
-                  <p className="text-xs text-slate-600 leading-normal line-clamp-2 italic mb-4">
+                  <p className="text-xs text-slate-600 leading-normal line-clamp-2 italic mb-3">
                     &ldquo;{locEx.coachCue}&rdquo;
                   </p>
                 </div>

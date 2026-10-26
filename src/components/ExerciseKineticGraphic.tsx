@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Exercise, MovementPhase } from '../types/workout';
-import { Play, Pause, RotateCcw, Activity, Eye, Zap } from 'lucide-react';
+import { Play, Pause, RotateCcw, Activity } from 'lucide-react';
+import { useTranslation } from '../i18n/LanguageContext';
 
 interface ExerciseKineticGraphicProps {
   exercise: Exercise;
@@ -15,6 +16,7 @@ export const ExerciseKineticGraphic: React.FC<ExerciseKineticGraphicProps> = ({
   autoPlay = true,
   showControls = true
 }) => {
+  const { t } = useTranslation();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(autoPlay);
   const [speed, setSpeed] = useState<number>(1.0);
@@ -98,8 +100,8 @@ export const ExerciseKineticGraphic: React.FC<ExerciseKineticGraphicProps> = ({
       <div className="w-full flex items-center justify-between gap-3 mb-2">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-          <span className="text-xs font-semibold tracking-wider text-slate-300 uppercase">
-            Biomechanical Movement Model
+          <span className="text-xs font-semibold tracking-wider text-slate-300 uppercase font-mono">
+            {t.movementLab.movementModel}
           </span>
         </div>
 
@@ -112,9 +114,9 @@ export const ExerciseKineticGraphic: React.FC<ExerciseKineticGraphicProps> = ({
             phase === 'concentric' ? 'bg-emerald-900/60 text-emerald-300 border border-emerald-700/50' :
             'bg-slate-800 text-slate-300'
           }`}>
-            {phase === 'eccentric' ? 'ECCENTRIC (LOWERING)' :
-             phase === 'pause' ? 'PEAK ISOMETRY' :
-             phase === 'concentric' ? 'CONCENTRIC (DRIVING)' : 'RESET / LOCKOUT'}
+            {phase === 'eccentric' ? t.movementLab.phaseEccentric :
+             phase === 'pause' ? t.movementLab.phasePause :
+             phase === 'concentric' ? t.movementLab.phaseConcentric : t.movementLab.phaseReset}
           </span>
         </div>
       </div>
@@ -134,12 +136,12 @@ export const ExerciseKineticGraphic: React.FC<ExerciseKineticGraphicProps> = ({
           <div className="absolute bottom-2 left-3 flex items-center gap-3 text-[11px] font-medium bg-slate-900/90 backdrop-blur-md px-2.5 py-1 rounded-md border border-slate-800 text-slate-300">
             <span className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
-              Primary Activation: <span className="text-white font-semibold">{exercise.primaryMuscles[0]}</span>
+              {t.movementLab.primaryActivation}: <span className="text-white font-semibold">{exercise.primaryMuscles[0]}</span>
             </span>
             {exercise.secondaryMuscles[0] && (
               <span className="flex items-center gap-1.5 hidden sm:flex">
                 <span className="w-2 h-2 rounded-full bg-cyan-400" />
-                Secondary: {exercise.secondaryMuscles[0]}
+                {t.movementLab.secondaryActivation}: {exercise.secondaryMuscles[0]}
               </span>
             )}
           </div>
@@ -147,7 +149,7 @@ export const ExerciseKineticGraphic: React.FC<ExerciseKineticGraphicProps> = ({
 
         {/* Rep cycle percentage */}
         <div className="absolute top-2 right-3 font-mono text-[11px] text-slate-400 bg-slate-900/80 px-2 py-0.5 rounded border border-slate-800">
-          REP CYCLE: {Math.round(progress * 100)}%
+          {t.movementLab.repCycle}: {Math.round(progress * 100)}%
         </div>
       </div>
 
@@ -191,7 +193,7 @@ export const ExerciseKineticGraphic: React.FC<ExerciseKineticGraphicProps> = ({
           {/* Quick Toolbars: Speed & Muscle Toggles */}
           <div className="flex items-center justify-between text-xs text-slate-400 pt-1">
             <div className="flex items-center gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800">
-              <span className="px-2 text-[11px] text-slate-400 font-mono">SPEED:</span>
+              <span className="px-2 text-[11px] text-slate-400 font-mono">{t.movementLab.speed}:</span>
               {[0.5, 1.0, 1.5].map((s) => (
                 <button
                   key={s}
@@ -214,7 +216,7 @@ export const ExerciseKineticGraphic: React.FC<ExerciseKineticGraphicProps> = ({
               }`}
             >
               <Activity className="w-3.5 h-3.5" />
-              <span>{showMuscles ? 'Muscles Highlighted' : 'Outline Only'}</span>
+              <span>{showMuscles ? t.movementLab.musclesHighlighted : t.movementLab.outlineOnly}</span>
             </button>
           </div>
         </div>
